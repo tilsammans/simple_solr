@@ -1,11 +1,7 @@
 require 'spec_helper'
 
 describe SimpleSolr::ActiveRecord do
-  it "provides simple_solr macro" do
-    class SimpleDocument < ActiveRecord::Base
-      simple_solr do
-        # this space intentionally left blank
-      end
-    end
+  it "provides simple_solr class method" do
+    SimpleDocument.simple_solr
   end
 end
