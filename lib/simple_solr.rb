@@ -1,5 +1,8 @@
+require 'active_record'
+
+require "simple_solr/active_record"
 require "simple_solr/version"
 
-module SimpleSolr
-  # Your code goes here...
+if defined?(ActiveRecord::Base)
+  ActiveRecord::Base.send :include, SimpleSolr::ActiveRecord
 end
