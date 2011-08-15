@@ -16,7 +16,7 @@ module SimpleSolr
     
     module InstanceMethods
       def update_simple_solr
-        HTTParty.post("http://example.com/solr/update", :body => {:bla => "bleg"})
+        HTTParty.post("http://example.com/solr/update", :body => {:title => "Omg Ponies"})
       end
     end
   end
