@@ -2,6 +2,6 @@
 
 class SimpleDocument < ActiveRecord::Base
   simple_solr do
-    # this space intentionally left blank
+    string :title
   end
 end
