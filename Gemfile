@@ -3,5 +3,6 @@ source "http://rubygems.org"
 gemspec
 
 gem "activerecord"
-gem "rspec"
+gem "rspec",            ">= 2"
 gem "sqlite3"
+gem "httparty"

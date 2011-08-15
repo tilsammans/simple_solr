@@ -6,6 +6,7 @@ describe SimpleSolr::ActiveRecord do
   end
   
   it "posts to solr after save" do
+    HTTParty.should_receive(:post)
     document = SimpleDocument.new :title => 'Omg Ponies'
     document.save
   end
