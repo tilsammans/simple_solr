@@ -9,7 +9,6 @@ module SimpleSolr
         class_eval do
           # httparty
           include HTTParty
-          headers 'Content-Type' => "application/json"
           
           # callbacks
           after_save :update_simple_solr
