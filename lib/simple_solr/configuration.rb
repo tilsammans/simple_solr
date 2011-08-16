@@ -39,13 +39,13 @@ module SimpleSolr
     
     # Full URI to use for all read operations.
     def uri
-      "#{hostname}:#{port}#{path}"
+      "http://#{hostname}:#{port}#{path}"
     end
     
     # Full URI to use for all write operations.
     # Automatically falls back to the <code>uri</code> when no master defined.
     def master_uri
-      "#{master_hostname}:#{master_port}#{master_path}"
+      "http://#{master_hostname}:#{master_port}#{master_path}"
     end
     
     private

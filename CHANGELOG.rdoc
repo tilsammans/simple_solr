@@ -5,3 +5,4 @@
 == 0.4.1
 
 - Spec that missing master_solr config falls back to solr config
+- add http:// to the solr uris

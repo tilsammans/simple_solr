@@ -14,7 +14,7 @@ describe SimpleSolr::ActiveRecord do
       let(:document) { SimpleDocument.create! :title => 'Omg Ponies' }
 
       it "posts to solr" do
-        SimpleDocument.should_receive(:post).with("test.local:8983/solr/update?commit=true", :body => "<add><doc><field name=\"id\">#{document.id}</field><field name=\"title\">Omg Ponies</field></doc></add>")
+        SimpleDocument.should_receive(:post).with("http://test.local:8983/solr/update?commit=true", :body => "<add><doc><field name=\"id\">#{document.id}</field><field name=\"title\">Omg Ponies</field></doc></add>")
       end
     end
     
@@ -22,8 +22,8 @@ describe SimpleSolr::ActiveRecord do
       let(:document) { SimpleDocument.create! :title => 'Omg Ponies' }
       
       it "posts to solr" do
-        SimpleDocument.should_receive(:post).with("test.local:8983/solr/update?commit=true", :body => "<add><doc><field name=\"id\">#{document.id}</field><field name=\"title\">Omg Ponies</field></doc></add>")
-        SimpleDocument.should_receive(:post).with("test.local:8983/solr/update?commit=true", :body => "<delete><id>#{document.id}</id></delete>")
+        SimpleDocument.should_receive(:post).with("http://test.local:8983/solr/update?commit=true", :body => "<add><doc><field name=\"id\">#{document.id}</field><field name=\"title\">Omg Ponies</field></doc></add>")
+        SimpleDocument.should_receive(:post).with("http://test.local:8983/solr/update?commit=true", :body => "<delete><id>#{document.id}</id></delete>")
         document.destroy
       end
     end
@@ -45,7 +45,7 @@ describe SimpleSolr::ActiveRecord do
     let(:document) { FullDocument.create :title => "Rainbows" }
     
     it "posts to solr after save" do
-      FullDocument.should_receive(:post).with("test.local:8983/solr?commit=true", :body => "<add><doc><field name=\"id\">full-document-#{document.id}</field><field name=\"title\">Rainbows</field><field name=\"date_creation\">#{document.created_at}</field><field name=\"shared\">false</field><field name=\"body\"></field></doc></add>")
+      FullDocument.should_receive(:post).with("http://test.local:8983/solr?commit=true", :body => "<add><doc><field name=\"id\">full-document-#{document.id}</field><field name=\"title\">Rainbows</field><field name=\"date_creation\">#{document.created_at}</field><field name=\"shared\">false</field><field name=\"body\"></field></doc></add>")
     end
   end
 end
