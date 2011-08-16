@@ -40,7 +40,31 @@ module SimpleSolr
       @master_path ||= user_configuration_from_key('master_solr', 'path') || path
     end
     
+    def master_uri
+      "#{master_hostname}:#{master_port}#{master_path}"
+    end
+    
     private
+      def user_configuration_from_key(*keys)
+        keys.inject(user_configuration) do |hash, key|
+          hash[key] if hash
+        end
+      end
+      
+      def user_configuration
+        @user_configuration ||=
+          begin
+            path = File.join(::Rails.root, 'config', 'simple_solr.yml')
+            if File.exist?(path)
+              File.open(path) do |file|
+                YAML.load(file)[::Rails.env]
+              end
+            else
+              {}
+            end
+          end
+      end
+      
       def default_hostname
         'localhost'
       end

@@ -8,3 +8,11 @@ require "simple_solr/version"
 if defined?(ActiveRecord::Base)
   ActiveRecord::Base.send :include, SimpleSolr::ActiveRecord
 end
+
+module SimpleSolr
+  class << self
+    def configuration
+      @configuration ||= SimpleSolr::Configuration.new
+    end
+  end
+end

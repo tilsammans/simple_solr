@@ -7,7 +7,7 @@ describe SimpleSolr::ActiveRecord do
     end
 
     it "posts to solr after save" do
-      SimpleDocument.should_receive(:post).with("http://example.com/solr/update", :body => "{\"title\":\"Omg Ponies\"}")
+      SimpleDocument.should_receive(:post).with("test.local:8983/solr", :body => "{\"title\":\"Omg Ponies\"}")
       document = SimpleDocument.new :title => 'Omg Ponies'
       document.save
     end

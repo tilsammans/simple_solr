@@ -21,7 +21,7 @@ module SimpleSolr
     
     module InstanceMethods
       def update_simple_solr
-        self.class.post("http://example.com/solr/update", :body => {:title => "Omg Ponies"}.to_json)
+        self.class.post(SimpleSolr.configuration.master_uri, :body => {:title => "Omg Ponies"}.to_json)
       end
     end
   end
