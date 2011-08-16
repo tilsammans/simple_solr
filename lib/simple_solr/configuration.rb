@@ -33,6 +33,10 @@ module SimpleSolr
       end
     end
     
+    def present?
+      not user_configuration.nil?
+    end
+    
     # Full URI to use for all read operations.
     def uri
       "#{hostname}:#{port}#{path}"

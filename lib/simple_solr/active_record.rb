@@ -21,7 +21,9 @@ module SimpleSolr
     
     module InstanceMethods
       def update_simple_solr
-        self.class.post(SimpleSolr.configuration.master_uri, :body => to_solr)
+        if SimpleSolr.configuration.present?
+          self.class.post(SimpleSolr.configuration.master_uri, :body => to_solr)
+        end
       end
       
       private

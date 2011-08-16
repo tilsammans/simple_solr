@@ -11,5 +11,17 @@ describe SimpleSolr::ActiveRecord do
       document = SimpleDocument.new :title => 'Omg Ponies'
       document.save
     end
+    
+    context "when unconfigured" do
+      before do
+        SimpleSolr.stub_chain(:configuration, :present?).and_return(false)
+      end
+
+      it "does nothing" do
+        SimpleDocument.should_not_receive(:post)
+        document = SimpleDocument.new :title => 'Omg Ponies'
+        document.save
+      end
+    end    
   end
 end

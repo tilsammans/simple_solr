@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe SimpleSolr::Configuration do
+  it { should be_present}
+  
   its(:hostname)          { should eq('test.local')}
   its(:port)              { should eq(8983)}
   its(:path)              { should eq('/solr')}
@@ -10,6 +12,14 @@ describe SimpleSolr::Configuration do
   its(:master_port)       { should eq(8983)}
   its(:master_path)       { should eq('/solr')}
   its(:master_uri)        { should eq('test.local:8983/solr')}
+  
+  context "unconfigured Rails env" do
+    before do
+      ::Rails.stub(:env).and_return('staging')
+    end
+    
+    it { should_not be_present }
+  end
 
   context "missing config file" do
     before do
