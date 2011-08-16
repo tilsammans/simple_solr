@@ -1,5 +1,5 @@
 module SimpleSolr
-  module ActiveRecord
+  module Update
     def self.included(base)
       base.extend ClassMethods
     end

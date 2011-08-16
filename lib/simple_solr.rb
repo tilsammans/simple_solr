@@ -2,12 +2,12 @@ require 'active_record'
 require 'httparty'
 require 'builder'
 
-require "simple_solr/active_record"
+require "simple_solr/update"
 require "simple_solr/configuration"
 require "simple_solr/version"
 
 if defined?(ActiveRecord::Base)
-  ActiveRecord::Base.send :include, SimpleSolr::ActiveRecord
+  ActiveRecord::Base.send :include, SimpleSolr::Update
 end
 
 module SimpleSolr

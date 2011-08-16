@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SimpleSolr::ActiveRecord do
+describe SimpleSolr::Update do
   describe SimpleDocument do
     it "provides simple_solr class method" do
       SimpleDocument.should respond_to(:simple_solr)
