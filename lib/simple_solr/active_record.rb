@@ -7,7 +7,11 @@ module SimpleSolr
     module ClassMethods
       def simple_solr
         class_eval do
+          # httparty
           include HTTParty
+          headers 'Content-Type' => "application/json"
+          
+          # callbacks
           after_save :update_simple_solr
         end
         
@@ -17,7 +21,7 @@ module SimpleSolr
     
     module InstanceMethods
       def update_simple_solr
-        self.class.post("http://example.com/solr/update", :body => {:title => "Omg Ponies"})
+        self.class.post("http://example.com/solr/update", :body => {:title => "Omg Ponies"}.to_json)
       end
     end
   end
