@@ -11,7 +11,8 @@ module SimpleSolr
           include HTTParty
           
           # callbacks
-          after_save :update_simple_solr
+          after_save :add_to_solr
+          after_destroy :delete_from_solr
         end
         
         # Store the simple_solr fields for this class
@@ -31,13 +32,27 @@ module SimpleSolr
     
     module InstanceMethods
       # callback which uses httparty to send a POST to solr.
-      def update_simple_solr
+      def add_to_solr
         if SimpleSolr.configuration.present?
           self.class.post(SimpleSolr.configuration.master_uri + "/update?commit=true", :body => to_solr)
         end
       end
       
+      def delete_from_solr
+        if SimpleSolr.configuration.present?
+          self.class.post(SimpleSolr.configuration.master_uri + "/update?commit=true", :body => to_solr_delete)
+        end
+      end
+      
       private
+        def to_solr_delete
+          xml = Builder::XmlMarkup.new
+          
+          xml.delete do
+            xml.id id
+          end
+        end
+        
         # Convert this instance's attributes to an XML suitable for Solr.
         # The fields in the XML are determined from the simple_solr block.
         def to_solr

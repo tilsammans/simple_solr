@@ -9,13 +9,25 @@ describe SimpleSolr::ActiveRecord do
     it "stores simple_solr fields" do
       SimpleDocument.simple_solr_fields.should eq({:title => nil})
     end
-
-    it "posts to solr after save" do
-      SimpleDocument.should_receive(:post).with("test.local:8983/solr/update?commit=true", :body => "<add><doc><field name=\"title\">Omg Ponies</field></doc></add>")
-      document = SimpleDocument.new :title => 'Omg Ponies'
-      document.save
+    
+    context "save" do
+      it "posts to solr" do
+        SimpleDocument.should_receive(:post).with("test.local:8983/solr/update?commit=true", :body => "<add><doc><field name=\"title\">Omg Ponies</field></doc></add>")
+        document = SimpleDocument.new :title => 'Omg Ponies'
+        document.save
+      end
     end
     
+    context "destroy" do
+      let(:document) { SimpleDocument.create! :title => 'Omg Ponies' }
+      
+      it "posts to solr" do
+        SimpleDocument.should_receive(:post).with("test.local:8983/solr/update?commit=true", :body => "<add><doc><field name=\"title\">Omg Ponies</field></doc></add>")
+        SimpleDocument.should_receive(:post).with("test.local:8983/solr/update?commit=true", :body => "<delete><id>#{document.id}</id></delete>")
+        document.destroy
+      end
+    end
+
     context "when unconfigured" do
       before do
         SimpleSolr.stub_chain(:configuration, :present?).and_return(false)
