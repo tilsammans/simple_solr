@@ -1,0 +1,103 @@
+Extremely lightweight adapter between Rails and Solr.
+
+SimpleSolr uses the REST interface that Solr offers and makes a great number
+of assumptions. This has resulted in a very fast, very lightweight library
+almost anyone can use straight away.
+
+* only a few dozen lines of code
+* extremely simple DSL
+* only depends on httparty
+* can handle all common use cases
+* has support for master/slave configurations
+* does not come with a bundled Solr
+* does not send a bunch of magic fields
+
+And my personal favorite:
+
+* <b>does nothing for unconfigured environments</b>
+
+If you have no +development+ section in the config file (see below) then
+nothing will happen at all. Your models will not be indexed, but you are
+freed from having to run a local Solr instance as well.
+
+Naturally there are downsides as well.
+
+* assumes an +id+ field present
+* makes Solr commit after every change
+* does not come with a bundled Solr
+* no rake tasks included
+
+This gem is not really suitable for use outside Rails, as it requires both
+ActiveRecord and ActiveSupport.
+
+I owe a great deal to @outoftime's Sunspot[https://github.com/outoftime/sunspot] library. If you need a fully-packed
+solution that handles every Solr case you might have, use that instead.
+
+
+== Installation
+
+Rails 2, in config/environment.rb:
+
+  config.gem 'simple_solr'
+  
+Rails 3, in Gemfile:
+
+  gem 'simple_solr'
+  
+
+== Configuration
+
+Create a file called <tt>config/simple_solr.yml</tt>.
+
+  production:
+    solr:
+      hostname: "slave.local"
+      port: 8000
+      path: "/solr"
+    master_solr:
+      hostname: "master.local"
+      port: 8000
+      path: "/solr"
+
+If you have just one Solr server, leave out the master_solr section.
+
+=== Your models
+
+Then in your models include the following:
+
+  class Document < ActiveRecord::Base
+    simple_solr do
+      field :title
+    end
+  end
+
+Only the fields listed in the +simple_solr+ block will be sent to Solr,
+with the addition of the +id+ field which is always included. The type of
+the field is not appended; the XML sent to Solr is as bare as possible.
+
+This also means no type casting is performed on dates/times. If you need
+anything like that, use a lambda to manipulate the field to your liking.
+
+Full example:
+
+  class FullDocument < ActiveRecord::Base
+    simple_solr do
+      field :id,            lambda { |record| "full-document-#{record.id}" }
+      field :title
+      field :date_creation, :created_at
+      field :shared,        false
+      field :published,     "Megacorp LLC"
+      field :body
+    end
+  end
+  
+As you can see you have a couple options with regards to the fields:
+
+1. Do nothing - in which case the corresponding attribute is used
+2. A symbol - uses the instance method with that name as the value
+3. Static value such as a string or boolean - which is used verbatim
+4. A lambda - for your every customization need.
+
+Use the latter form if you want to add a dynamic field to Solr. The model
+instance is passed as a parameter, so you can use every method inside
+the block, or run a calculation, or whatever.
