@@ -24,4 +24,13 @@ describe SimpleSolr::ActiveRecord do
       end
     end    
   end
+  
+  describe FullDocument do
+    let(:document) { FullDocument.new :title => "Rainbows" }
+    
+    it "posts to solr after save" do
+      FullDocument.should_receive(:post).with("test.local:8983/solr", :body => "<add><doc><field name=\"id\">full-document-1</field></doc></add>")
+      document.save      
+    end
+  end
 end
