@@ -101,3 +101,21 @@ As you can see you have a couple options with regards to the fields:
 Use the latter form if you want to add a dynamic field to Solr. The model
 instance is passed as a parameter, so you can use every method inside
 the block, or run a calculation, or whatever.
+
+== Searching
+
+Use the +simple_search+ class method on your model:
+
+  Document.simple_search 'apple'
+  
+This will make a trip to Solr and return the results as a hash. That's right.
+The results are not correlated with your models. In fact, no processing is
+done at all. Simple, right? If you need to fetch model instances based on the
+results, that is up to you.
+
+You can add parameters, for example if you want to limit results using +fq+:
+
+  Document.simple_search 'apple', :fq => "category:fruit"
+  
+See the "Solr documentation"[http://wiki.apache.org/solr/CommonQueryParameters] for a list
+of common query parameters. Just remember that the +q+ parameter will be set for you.
