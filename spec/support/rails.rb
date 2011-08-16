@@ -1,5 +1,6 @@
 require 'pathname'
 
+# Fake Rails class to provide stubbed methods we use on the real one.
 class Rails
   def self.env
     'test'

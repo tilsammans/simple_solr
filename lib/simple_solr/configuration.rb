@@ -16,28 +16,25 @@ module SimpleSolr
   # the Solr instance specified there for all write operations, and the Solr
   # configured under <code>solr</code> for all read operations.
   class Configuration
-    def hostname
-      @hostname ||= user_configuration_from_key('solr', 'hostname') || default_hostname
+    # Define methods for the <code>solr</code> key. This key is normally used to
+    # configure SimpleSolr. 
+    %w(hostname port path).each do |method|
+      define_method method do
+        configuration('solr', method) || self.send("default_#{method}")
+      end
+    end
+
+    # Define methods for the <code>master_solr</code> key. When present, this key
+    # defines the Solr used for all write operations, while all read operations
+    # take place on the Solr defined in the <code>solr</code> key.
+    %w(hostname port path).each do |method|
+      define_method "master_#{method}" do
+        configuration('master_solr', method) || self.send(method)
+      end
     end
     
-    def port
-      @port ||= user_configuration_from_key('solr', 'port') || default_port
-    end
-    
-    def path
-      @path ||= user_configuration_from_key('solr', 'path') || default_path
-    end
-    
-    def master_hostname
-      @master_hostname ||= user_configuration_from_key('master_solr', 'hostname') || hostname
-    end
-    
-    def master_port
-      @master_port ||= user_configuration_from_key('master_solr', 'port') || port
-    end
-    
-    def master_path
-      @master_path ||= user_configuration_from_key('master_solr', 'path') || path
+    def uri
+      "#{hostname}:#{port}#{path}"
     end
     
     def master_uri
@@ -45,7 +42,7 @@ module SimpleSolr
     end
     
     private
-      def user_configuration_from_key(*keys)
+      def configuration(*keys)
         keys.inject(user_configuration) do |hash, key|
           hash[key] if hash
         end
