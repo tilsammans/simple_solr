@@ -5,9 +5,14 @@ of assumptions. This has resulted in a very fast, very lightweight library
 almost anyone can use straight away. It does mean you will be working with
 query strings and hashes directly, instead of with Ruby objects.
 
+SimpleSolr is ideal when the Solr you use has been provided by a third party
+and is more or less running fine without you.
+
+=== Design goals and benefits of SimpleSolr
+
 * only a few dozen lines of code
 * extremely simple DSL
-* only depends on httparty
+* only depends on httparty[https://github.com/jnunemaker/httparty]
 * can handle all common use cases
 * has support for master/slave configurations
 * does not come with a bundled Solr
@@ -15,33 +20,33 @@ query strings and hashes directly, instead of with Ruby objects.
 
 And my personal favorite:
 
-* <b>does nothing for unconfigured environments</b>
+* <b>no operation in unconfigured environments</b>
 
 If you have no +development+ section in the config file (see below) then
 nothing will happen at all. Your models will not be indexed, but you are
 freed from having to run a local Solr instance as well.
 
-This gem is not really suitable for use outside Rails, as it requires both
-ActiveRecord and ActiveSupport.
-
-I owe a great deal to @outoftime's Sunspot[https://github.com/outoftime/sunspot] library. If you need a fully-packed
-solution that handles every Solr case you might have, use that instead.
+I owe a great deal to @outoftime's Sunspot[https://github.com/outoftime/sunspot] library. The
+configuration is identical, so if you come from that you will feel right at home. If you do
+need a fully-packed solution that is a good Ruby/Rails citizen and handles every Solr case you
+might have, use that instead.
 
 
 == Installation
 
-Rails 2, in config/environment.rb:
+Rails 2, in +config/environment.rb+:
 
   config.gem 'simple_solr'
   
-Rails 3, in Gemfile:
+Rails 3, in +Gemfile+:
 
   gem 'simple_solr'
   
 
 == Configuration
 
-Create a file called <tt>config/simple_solr.yml</tt>.
+Create a file called <tt>config/simple_solr.yml</tt>. (No, there is no generator. You can
+do it by hand, I believe in you.)
 
   production:
     solr:
@@ -55,6 +60,11 @@ Create a file called <tt>config/simple_solr.yml</tt>.
 
 If you have just one Solr server, leave out the master_solr section.
 
+Reasonable defaults are assumed for all these entries, so you can get away
+with just your environment and +solr+ key in there. You can leave out values
+in the +master_solr+ section, since the gem will fall back to using values from
+the +solr+ section instead.
+
 === Your models
 
 Then in your models include the following:
@@ -66,11 +76,10 @@ Then in your models include the following:
   end
 
 Only the fields listed in the +simple_solr+ block will be sent to Solr,
-with the addition of the +id+ field which is always included. The type of
-the field is not appended; the XML sent to Solr is as bare as possible.
-
-This also means no type casting is performed on dates/times. If you need
-anything like that, use a lambda to manipulate the field to your liking.
+with the addition of the +id+ field which is always included. Every field
+is passed to Builder, which has limited type casting. If you have special
+needs with regards to date/time formats or anything like that, use a
+lambda to manipulate the field to your liking.
 
 Full example:
 
@@ -80,7 +89,7 @@ Full example:
       field :title
       field :date_creation, :created_at
       field :shared,        false
-      field :published,     "Megacorp LLC"
+      field :publisher,     "Megacorp LLC"
       field :body
     end
   end
@@ -92,9 +101,18 @@ As you can see you have a couple options with regards to the fields:
 3. Static value such as a string or boolean - which is used verbatim
 4. A lambda - for your every customization need.
 
-Use the latter form if you want to add a dynamic field to Solr. The model
-instance is passed as a parameter, so you can use every method inside
-the block, or run a calculation, or whatever.
+Use the latter if you want to add a dynamic field to Solr. The model
+instance is passed as a parameter, so Bob's your uncle and the sky's
+the limit.
+
+=== Debugging
+
+If something isn't quite working, set httparty's +debug_output+ flag
+on your model:
+
+  Document.debug_output
+
+and then save the model to see the HTTP conversation on $stdout.
 
 == Searching
 
@@ -111,8 +129,9 @@ You can add parameters, for example if you want to limit results using +fq+:
 
   Document.simple_search 'apple', :fq => "category:fruit"
   
-See the "Solr documentation"[http://wiki.apache.org/solr/CommonQueryParameters] for a list
-of common query parameters. Just remember that the +q+ parameter will be set for you.
+See the Solr documentation[http://wiki.apache.org/solr/CommonQueryParameters] for a list
+of common query parameters. Just remember that the +q+ parameter will be set already,
+although it can be overriden by the parameters you provide.
 
 The response from Solr will look something like this:
 
@@ -138,6 +157,4 @@ The response from Solr will look something like this:
   </response>
 
 This response will be translated into a hash by httparty. Take a look at your
-webserver config/response headers if that does not happen. You need to iterate
-over the results yourself in order to do anything useful with the results.
-Again, simple!
+webserver config/response headers if that does not happen.
