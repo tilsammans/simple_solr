@@ -21,8 +21,19 @@ module SimpleSolr
     
     module InstanceMethods
       def update_simple_solr
-        self.class.post(SimpleSolr.configuration.master_uri, :body => {:title => "Omg Ponies"}.to_json)
+        self.class.post(SimpleSolr.configuration.master_uri, :body => to_solr)
       end
+      
+      private
+        def to_solr
+          @to_solr ||= Builder::XmlMarkup.new
+          
+          @to_solr.add do
+            @to_solr.doc do
+              @to_solr.field "Omg Ponies", :name => "title"
+            end
+          end
+        end
     end
   end
 end
