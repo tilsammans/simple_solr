@@ -5,7 +5,7 @@ module SimpleSolr
     end
     
     module ClassMethods
-      def simple_solr
+      def simple_solr(&block)
         class_eval do
           # httparty
           include HTTParty
@@ -14,7 +14,14 @@ module SimpleSolr
           after_save :update_simple_solr
         end
         
+        cattr_accessor :simple_solr_fields
+        self.simple_solr_fields = block.call
+        
         include InstanceMethods
+      end
+      
+      def field(name, value=nil)
+        {name => value}
       end
     end
     
@@ -31,7 +38,13 @@ module SimpleSolr
           
           xml.add do
             xml.doc do
-              xml.field "Omg Ponies", :name => "title"
+              self.class.simple_solr_fields.each do |name, value|
+                if value.nil?
+                  xml.field self.send(name), :name => name
+                else
+                  xml.field value, :name => name
+                end
+              end
             end
           end
         end

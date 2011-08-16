@@ -5,6 +5,10 @@ describe SimpleSolr::ActiveRecord do
     it "provides simple_solr class method" do
       SimpleDocument.should respond_to(:simple_solr)
     end
+    
+    it "stores simple_solr fields" do
+      SimpleDocument.simple_solr_fields.should eq({:title => nil})
+    end
 
     it "posts to solr after save" do
       SimpleDocument.should_receive(:post).with("test.local:8983/solr", :body => "<add><doc><field name=\"title\">Omg Ponies</field></doc></add>")
