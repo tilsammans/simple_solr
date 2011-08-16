@@ -1,8 +1,14 @@
-== 0.4.0 (Aug 16, 2011)
+== master
 
-- First release as a gem, indexing works
+- Added simple_search method to retrieve results
+
 
 == 0.4.1
 
 - Spec that missing master_solr config falls back to solr config
 - add http:// to the solr uris
+
+
+== 0.4.0 (Aug 16, 2011)
+
+- First release as a gem, indexing works
