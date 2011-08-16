@@ -11,10 +11,5 @@ describe SimpleSolr::ActiveRecord do
       document = SimpleDocument.new :title => 'Omg Ponies'
       document.save
     end
-
-    it "posts" do
-      document = SimpleDocument.new :title => 'Omg Ponies'
-      document.save
-    end
   end
 end
