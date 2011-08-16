@@ -30,11 +30,10 @@ describe SimpleSolr::ActiveRecord do
   end
   
   describe FullDocument do
-    let(:document) { FullDocument.new :title => "Rainbows" }
+    let(:document) { FullDocument.create :title => "Rainbows" }
     
     it "posts to solr after save" do
-      FullDocument.should_receive(:post).with("test.local:8983/solr", :body => "<add><doc><field name=\"id\">full-document-1</field></doc></add>")
-      document.save      
+      FullDocument.should_receive(:post).with("test.local:8983/solr", :body => "<add><doc><field name=\"id\">full-document-#{document.id}</field><field name=\"title\">Rainbows</field><field name=\"date_creation\">#{document.created_at}</field><field name=\"shared\">false</field><field name=\"body\"></field></doc></add>")
     end
   end
 end

@@ -52,6 +52,9 @@ module SimpleSolr
                 elsif value.is_a?(Symbol)
                   # symbol given, use it to get the attribute
                   xml.field self.send(value), :name => name
+                elsif value.is_a?(Proc)
+                  # Procs are used to fetch information from the instance
+                  xml.field value.call(self), :name => name
                 else
                   # value given, use it directly.
                   xml.field value, :name => name

@@ -8,7 +8,7 @@ end
 
 class FullDocument < ActiveRecord::Base
   simple_solr do
-    field :id,            lambda { "full-document-#{id}" }
+    field :id,            lambda { |record| "full-document-#{record.id}" }
     field :title
     field :date_creation, :created_at
     field :shared,        false
