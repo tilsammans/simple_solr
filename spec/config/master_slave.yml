@@ -1,5 +1,7 @@
 test:
-  solr:
-    hostname: "slave.local"
   master_solr:
     hostname: "master.local"
+  solr:
+    hostname: "slave.local"
+    port: 9000
+    path: "/public"

@@ -43,13 +43,13 @@ describe SimpleSolr::Configuration do
     end
     
     its(:hostname)        { should eq('slave.local')}
-    its(:port)            { should eq(8983)}
-    its(:path)            { should eq('/solr')}
-    its(:uri)             { should eq('slave.local:8983/solr')}
+    its(:port)            { should eq(9000)}
+    its(:path)            { should eq('/public')}
+    its(:uri)             { should eq('slave.local:9000/public')}
 
     its(:master_hostname) { should eq('master.local')}
-    its(:master_port)     { should eq(8983)}
-    its(:master_path)     { should eq('/solr')}
-    its(:master_uri)      { should eq('master.local:8983/solr')}
+    its(:master_port)     { should eq(9000)}
+    its(:master_path)     { should eq('/public')}
+    its(:master_uri)      { should eq('master.local:9000/public')}
   end
 end
