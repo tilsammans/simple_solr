@@ -26,11 +26,11 @@ module SimpleSolr
       
       private
         def to_solr
-          @to_solr ||= Builder::XmlMarkup.new
+          xml = Builder::XmlMarkup.new
           
-          @to_solr.add do
-            @to_solr.doc do
-              @to_solr.field "Omg Ponies", :name => "title"
+          xml.add do
+            xml.doc do
+              xml.field "Omg Ponies", :name => "title"
             end
           end
         end
