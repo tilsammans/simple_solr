@@ -33,7 +33,7 @@ module SimpleSolr
       # callback which uses httparty to send a POST to solr.
       def update_simple_solr
         if SimpleSolr.configuration.present?
-          self.class.post(SimpleSolr.configuration.master_uri, :body => to_solr)
+          self.class.post(SimpleSolr.configuration.master_uri + "/update?commit=true", :body => to_solr)
         end
       end
       

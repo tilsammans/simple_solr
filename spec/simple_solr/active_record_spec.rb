@@ -11,7 +11,7 @@ describe SimpleSolr::ActiveRecord do
     end
 
     it "posts to solr after save" do
-      SimpleDocument.should_receive(:post).with("test.local:8983/solr", :body => "<add><doc><field name=\"title\">Omg Ponies</field></doc></add>")
+      SimpleDocument.should_receive(:post).with("test.local:8983/solr/update?commit=true", :body => "<add><doc><field name=\"title\">Omg Ponies</field></doc></add>")
       document = SimpleDocument.new :title => 'Omg Ponies'
       document.save
     end
@@ -33,7 +33,7 @@ describe SimpleSolr::ActiveRecord do
     let(:document) { FullDocument.create :title => "Rainbows" }
     
     it "posts to solr after save" do
-      FullDocument.should_receive(:post).with("test.local:8983/solr", :body => "<add><doc><field name=\"id\">full-document-#{document.id}</field><field name=\"title\">Rainbows</field><field name=\"date_creation\">#{document.created_at}</field><field name=\"shared\">false</field><field name=\"body\"></field></doc></add>")
+      FullDocument.should_receive(:post).with("test.local:8983/solr?commit=true", :body => "<add><doc><field name=\"id\">full-document-#{document.id}</field><field name=\"title\">Rainbows</field><field name=\"date_creation\">#{document.created_at}</field><field name=\"shared\">false</field><field name=\"body\"></field></doc></add>")
     end
   end
 end
