@@ -19,6 +19,8 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_development_dependency "rspec", ">= 2"
+  
   s.add_runtime_dependency "activerecord"
   s.add_runtime_dependency "httparty"
+  s.add_runtime_dependency "builder"
 end
