@@ -26,6 +26,7 @@ module SimpleSolr
     end
     
     module InstanceMethods
+      # callback which uses httparty to send a POST to solr.
       def update_simple_solr
         if SimpleSolr.configuration.present?
           self.class.post(SimpleSolr.configuration.master_uri, :body => to_solr)
@@ -33,6 +34,8 @@ module SimpleSolr
       end
       
       private
+        # Convert this instance's attributes to an XML suitable for Solr.
+        # The fields in the XML are determined from the simple_solr block.
         def to_solr
           xml = Builder::XmlMarkup.new
           
@@ -40,8 +43,13 @@ module SimpleSolr
             xml.doc do
               self.class.simple_solr_fields.each do |name, value|
                 if value.nil?
+                  # no value given, get it from the attribute
                   xml.field self.send(name), :name => name
+                elsif value.is_a?(Symbol)
+                  # symbol given, use it to get the attribute
+                  xml.field self.send(value), :name => name
                 else
+                  # value given, use it directly.
                   xml.field value, :name => name
                 end
               end
