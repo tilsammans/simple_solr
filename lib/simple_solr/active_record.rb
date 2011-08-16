@@ -14,14 +14,18 @@ module SimpleSolr
           after_save :update_simple_solr
         end
         
+        # Store the simple_solr fields for this class
         cattr_accessor :simple_solr_fields
-        self.simple_solr_fields = block.call
+        self.simple_solr_fields = {}
+        block.call
         
         include InstanceMethods
       end
       
+      # gets called by every +field+ line inside the simple_solr block.
+      # It stores the given values in +simple_solr_fields+, which we later use to build the XML.
       def field(name, value=nil)
-        {name => value}
+        simple_solr_fields[name] = value
       end
     end
     
