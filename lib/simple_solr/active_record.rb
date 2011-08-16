@@ -7,6 +7,7 @@ module SimpleSolr
     module ClassMethods
       def simple_solr
         class_eval do
+          include HTTParty
           after_save :update_simple_solr
         end
         
@@ -16,7 +17,7 @@ module SimpleSolr
     
     module InstanceMethods
       def update_simple_solr
-        HTTParty.post("http://example.com/solr/update", :body => {:title => "Omg Ponies"})
+        self.class.post("http://example.com/solr/update", :body => {:title => "Omg Ponies"})
       end
     end
   end
