@@ -33,10 +33,13 @@ module SimpleSolr
       end
     end
     
+    # Full URI to use for all read operations.
     def uri
       "#{hostname}:#{port}#{path}"
     end
     
+    # Full URI to use for all write operations.
+    # Automatically falls back to the <code>uri</code> when no master defined.
     def master_uri
       "#{master_hostname}:#{master_port}#{master_path}"
     end
@@ -51,7 +54,7 @@ module SimpleSolr
       def user_configuration
         @user_configuration ||=
           begin
-            path = File.join(::Rails.root, 'config', 'simple_solr.yml')
+            path = File.join(::Rails.root, 'config', config_file_name)
             if File.exist?(path)
               File.open(path) do |file|
                 YAML.load(file)[::Rails.env]
@@ -72,6 +75,10 @@ module SimpleSolr
       
       def default_path
         "/solr"
+      end
+      
+      def config_file_name
+        'simple_solr.yml'
       end
   end
 end
