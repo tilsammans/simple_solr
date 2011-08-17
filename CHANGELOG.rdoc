@@ -1,4 +1,4 @@
-== master
+== 0.5.0 (Aug 17, 2011)
 
 - Added simple_search method to retrieve results
 - Added DEVELOPMENT.rdoc
