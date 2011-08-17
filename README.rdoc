@@ -67,7 +67,11 @@ the +solr+ section instead.
 
 === Your models
 
-Then in your models include the following:
+<b>Note: in these examples I am using a class called Document. This is just for
+illustrative purpuses, your class will probably have a different name, like
+Post or Product. You get the idea.</b>
+
+In your models include the following:
 
   class Document < ActiveRecord::Base
     simple_solr do
@@ -158,6 +162,15 @@ The response from Solr will look something like this:
 
 This response will be translated into a hash by httparty. Take a look at your
 webserver config/response headers if that does not happen.
+
+
+== Working in batches
+
+If you want to add a bunch of existing models to Solr, you can:
+
+  Document.all.each do |document|
+    document.add_to_solr
+  end
 
 
 == Helping out
