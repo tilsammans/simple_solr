@@ -1,6 +1,7 @@
 == master
 
 - Added simple_search method to retrieve results
+- Added DEVELOPMENT.rdoc
 
 
 == 0.4.1

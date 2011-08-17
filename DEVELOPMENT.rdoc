@@ -1,0 +1,11 @@
+= Working on SimpleSolr
+
+I appreciate the effort! GitHub offers excellent tools for collaborating
+on projects, and the basic fork/branch/pull request style is just fine.
+
+To get started, also no surprises:
+
+1. gem install bundler (if you haven't already)
+2. bundle
+3. cp spec/db/database.yml.example spec/db/database.yml
+4. rake

@@ -158,3 +158,8 @@ The response from Solr will look something like this:
 
 This response will be translated into a hash by httparty. Take a look at your
 webserver config/response headers if that does not happen.
+
+
+== Helping out
+
+Interested in working on SimpleSolr? Please see DEVELOPMENT.rdoc.
