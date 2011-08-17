@@ -7,11 +7,9 @@ Gem::Specification.new do |s|
   s.version     = SimpleSolr::VERSION
   s.authors     = ["Joost Baaij"]
   s.email       = ["joost@spacebabies.nl"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/tilsammans/simple_solr"
   s.summary     = %q{Simple Solr client}
-  s.description = %q{Rails plugins which connects to a Solr search engine with as less features as possible.}
-
-  s.rubyforge_project = "simple_solr"
+  s.description = %q{Solr client for Ruby on Rails with as few features as possible.}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
