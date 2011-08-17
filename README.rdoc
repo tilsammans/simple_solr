@@ -8,6 +8,7 @@ query strings and hashes directly, instead of with Ruby objects.
 SimpleSolr is ideal when the Solr you use has been provided by a third party
 and is more or less running fine without you.
 
+
 === Design goals and benefits of SimpleSolr
 
 * only a few dozen lines of code
@@ -65,6 +66,7 @@ with just your environment and +solr+ key in there. You can leave out values
 in the +master_solr+ section, since the gem will fall back to using values from
 the +solr+ section instead.
 
+
 === Your models
 
 <b>Note: in these examples I am using a class called Document. This is just for
@@ -109,14 +111,17 @@ Use the latter if you want to add a dynamic field to Solr. The model
 instance is passed as a parameter, so Bob's your uncle and the sky's
 the limit.
 
+
 === Debugging
 
+As far as I am concerned, one of the <b>killer features</b> of this gem.
 If something isn't quite working, set httparty's +debug_output+ flag
 on your model:
 
   Document.debug_output
 
-and then save the model to see the HTTP conversation on $stdout.
+and then save the model to see the HTTP conversation on $stderr.
+
 
 == Searching
 
@@ -171,6 +176,15 @@ If you want to add a bunch of existing models to Solr, you can:
   Document.all.each do |document|
     document.add_to_solr
   end
+  
+Same for deleting documents:
+
+  Document.all.each do |document|
+    document.delete_from_solr
+  end
+
+Just remember to not touch the +id+ field since you added the model, since
+this key is used to delete documents from Solr.
 
 
 == Helping out
