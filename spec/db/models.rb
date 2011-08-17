@@ -1,5 +1,9 @@
 # A bunch of models with varying amounts of simple_solrism.
 
+class SparseDocument < ActiveRecord::Base
+  simple_solr
+end
+
 class SimpleDocument < ActiveRecord::Base
   simple_solr do
     field :title

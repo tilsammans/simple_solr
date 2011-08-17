@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe SimpleSolr::Update do
+  describe SparseDocument do
+    it "stores just the id field" do
+      SparseDocument.simple_solr_fields.should eq({:id => nil})
+    end
+  end
+  
   describe SimpleDocument do
     it "provides simple_solr class method" do
       SimpleDocument.should respond_to(:simple_solr)
