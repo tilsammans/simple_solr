@@ -5,7 +5,7 @@ module SimpleSolr
     end
     
     module ClassMethods
-      def simple_solr(&block)
+      def simple_solr
         class_eval do
           # httparty
           include HTTParty
@@ -18,7 +18,8 @@ module SimpleSolr
         # Store the simple_solr fields for this class
         cattr_accessor :simple_solr_fields
         self.simple_solr_fields = { id: nil }
-        block.call if block_given?
+        
+        yield if block_given?
         
         include InstanceMethods
       end
