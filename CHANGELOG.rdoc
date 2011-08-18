@@ -1,6 +1,7 @@
-== master
+== 0.6.0 (Aug 18, 2011)
 
 - Return the parsed response from httparty for search results
+- Sets the request content type to 'text/xml'
 
 
 == 0.5.0 (Aug 17, 2011)
