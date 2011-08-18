@@ -17,7 +17,7 @@ module SimpleSolr
         
         # Store the simple_solr fields for this class
         cattr_accessor :simple_solr_fields
-        self.simple_solr_fields = { id: nil }
+        self.simple_solr_fields = { :id => nil }
         
         yield if block_given?
         
