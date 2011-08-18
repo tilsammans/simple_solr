@@ -94,6 +94,7 @@ Full example:
       field :id,            lambda { |record| "full-document-#{record.id}" }
       field :title
       field :date_creation, :created_at
+      field :date_offline,  lambda { |record| record.offline_at.utc.iso8601 if record.offline_at? }
       field :shared,        false
       field :publisher,     "Megacorp LLC"
       field :body
