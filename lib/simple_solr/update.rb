@@ -9,6 +9,7 @@ module SimpleSolr
         class_eval do
           # httparty
           include HTTParty
+          headers 'Content-Type' => 'text/xml'
           
           # callbacks
           after_save :add_to_solr
