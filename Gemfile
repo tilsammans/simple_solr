@@ -2,6 +2,7 @@ source "http://rubygems.org"
 
 gemspec
 
+gem "rake"
 gem "activerecord"
 gem "rspec",            ">= 2"
 gem "sqlite3"
