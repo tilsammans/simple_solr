@@ -16,9 +16,5 @@ module SimpleSolr
     def configuration
       @configuration ||= SimpleSolr::Configuration.new
     end
-    
-    def search(query, params)
-      SimpleSolr::Search.simple_search(query, params)
-    end
   end
 end
