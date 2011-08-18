@@ -1,33 +1,9 @@
-require 'yaml'
+# Create schema and load the models
+ActiveRecord::Base.establish_connection({:adapter => "sqlite3", :database => ":memory:"})
 
-ENV['DB'] ||= 'sqlite3'
+ActiveRecord::Base.silence do
+  ActiveRecord::Migration.verbose = false
 
-database_yml = File.expand_path('../../db/database.yml', __FILE__)
-if File.exists?(database_yml)
-  active_record_configuration = YAML.load_file(database_yml)[ENV['DB']]
-  
-  ActiveRecord::Base.establish_connection(active_record_configuration)
-  
-  ActiveRecord::Base.silence do
-    ActiveRecord::Migration.verbose = false
-    
-    load(File.dirname(__FILE__) + '/../db/schema.rb')
-    load(File.dirname(__FILE__) + '/../db/models.rb')
-  end  
-  
-else
-  abort <<-FAIL
-  
-  Please create #{database_yml} first to configure your database.
-  Take a look at: #{database_yml}.example"
-  
-  FAIL
+  load(File.dirname(__FILE__) + '/../db/schema.rb')
+  load(File.dirname(__FILE__) + '/../db/models.rb')
 end
-
-def clean_database!
-  [SimpleDocument].each do |model|
-    ActiveRecord::Base.connection.execute "DELETE FROM #{model.table_name}"
-  end
-end
-
-clean_database!

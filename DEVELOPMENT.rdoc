@@ -7,5 +7,10 @@ To get started, also no surprises:
 
 1. gem install bundler (if you haven't already)
 2. bundle
-3. cp spec/db/database.yml.example spec/db/database.yml
 4. rake
+
+
+== Database
+
+SimpleSolr uses an in-memory SQLite database. This is more to satisfy
+ActiveRecord than for SimpleSolr, but it's so fast it does not matter.
