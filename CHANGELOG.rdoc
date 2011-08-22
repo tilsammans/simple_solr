@@ -1,3 +1,8 @@
+== master
+
+- Only test on 1.9.2
+
+
 == 0.6.0 (Aug 18, 2011)
 
 - Return the parsed response from httparty for search results

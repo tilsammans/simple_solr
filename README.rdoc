@@ -188,6 +188,11 @@ Just remember to not touch the +id+ field since you added the model, since
 this key is used to delete documents from Solr.
 
 
+== Supported Ruby version
+
+This gem is only tested on Ruby 1.9.2. It will probably work on other versions as well.
+
+
 == Helping out
 
 Interested in working on SimpleSolr? Please see DEVELOPMENT.rdoc.
