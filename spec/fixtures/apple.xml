@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <lst name="responseHeader">
+    <int name="status">0</int>
+    <int name="QTime">3</int>
+  </lst>
+  <result name="response" numFound="1" start="0" maxScore="13.722203">
+    <doc>
+      <float name="score">13.722203</float>
+      <date name="date_creation">2011-01-06T23:02:33Z</date>
+      <str name="id">969</str>
+      <str name="publisher">Widgets, Inc</str>
+      <str name="title">Golden Delicious</str>
+      <str name="category">Apples</str>
+    </doc>
+  </result>
+  <lst name="highlighting">
+    <lst name="969"/>
+  </lst>
+</response>

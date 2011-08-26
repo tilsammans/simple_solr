@@ -167,8 +167,42 @@ The response from Solr will look something like this:
   </response>
 
 This response will be translated into a hash by httparty. Take a look at your
-webserver config/response headers if that does not happen.
+webserver config/response headers if that does not happen. The contents of the
+result has are somewhat confusing, as XML attributes are transformed into a
+method on the node's inner text.
 
+The result above will be transformed into this:
+
+  response = {
+      "lst" = >[{
+          "int" = >["0", "3"],
+          "name" = >"responseHeader"
+      },
+      {
+          "lst" = >{
+              "name" = >"969"
+          },
+          "name" = >"highlighting"
+      }],
+      "result" = >{
+          "doc" = >{
+              "float" = >"13.722203",
+              "date" = >"2011-01-06T23:02:33Z",
+              "str" = >["969", "Widgets, Inc", "Golden Delicious", "Apples"]
+          },
+          "name" = >"response",
+          "numFound" = >"1",
+          "start" = >"0",
+          "maxScore" = >"13.722203"
+      }
+  }
+
+As you can see, result nodes that appear once are transformed into a hash
+directly, whereas result nodes that appear multiple times are placed in an
+array. But where are the XML attributes on the result strings? You can find
+them by calling .attributes on the strings:
+
+  response['result']['doc']['str'][1].attributes    # => {"name" => "publisher"}
 
 == Working in batches
 
