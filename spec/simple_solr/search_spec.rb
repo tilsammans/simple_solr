@@ -30,5 +30,11 @@ describe SimpleSolr::Search do
     it "result is not empty" do
       SimpleDocument.simple_search('bonanza')['result'].should_not be_empty
     end
+    
+    it "finds str results" do
+      str = SimpleDocument.simple_search('bonanza')['result']['doc']['str']
+      str[0].should == 'www.zappelin.nl'
+      str[0].attributes.should == {"name" => "brand_site"}
+    end
   end
 end
