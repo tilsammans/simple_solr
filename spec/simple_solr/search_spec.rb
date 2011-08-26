@@ -1,14 +1,18 @@
 require 'spec_helper'
 
+fixture = File.dirname(__FILE__) + "/../fixtures/result.xml"
+
+FakeWeb.register_uri(:get,
+  "http://test.local:8983/solr/select?q=bonanza",
+  :body => File.read(fixture),
+  :content_type => "application/xml"
+)
+
 describe SimpleSolr::Search do
   let(:response) { stub("response")}
   let(:httparty) { stub("httparty", :parsed_response => {'response' => response})}
   
   describe SimpleDocument do
-    before do
-      SimpleDocument.stub(:get).and_return(httparty)
-    end
-    
     it "responds to search" do
       SimpleDocument.should respond_to(:simple_search)
     end
@@ -23,8 +27,8 @@ describe SimpleSolr::Search do
       SimpleDocument.simple_search 'bonanza', :fq => "brand_site:www.example.com"
     end
     
-    it "returns parsed response" do
-      SimpleDocument.simple_search('bonanza').should eq(response)
+    it "result is not empty" do
+      SimpleDocument.simple_search('bonanza')['result'].should_not be_empty
     end
   end
 end

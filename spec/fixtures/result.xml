@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <lst name="responseHeader">
+    <int name="status">0</int>
+    <int name="QTime">3</int>
+  </lst>
+  <result name="response" numFound="1" start="0" maxScore="3.2594316">
+    <doc>
+      <float name="score">3.2594316</float>
+      <str name="brand_site">www.zappelin.nl</str>
+      <str name="brand_title">Z@ppelin</str>
+      <arr name="contenttype">
+        <str>text</str>
+      </arr>
+      <date name="date_creation">2010-12-26T23:02:48Z</date>
+      <date name="date_offline">2021-08-23T10:44:46Z</date>
+      <date name="date_online">2010-12-26T23:02:00Z</date>
+      <date name="date_updated">2011-01-26T16:21:56Z</date>
+      <str name="deeplink">http://www.zappelin.nl/series/962-woezel-en-pip</str>
+      <str name="id">http://www.zappelin.nl/series/962-woezel-en-pip</str>
+      <arr name="keywords">
+        <str/>
+      </arr>
+      <str name="publisher">NPO</str>
+      <str name="shared">true</str>
+      <str name="summary">&lt;p&gt;Woezel en Pip zijn de nieuwsgierige hondjes die bedacht zijn door Guusje Nederhorst.&lt;/p&gt;</str>
+      <arr name="thumbnails">
+        <str>/attachments/contents/000/002/743/uploads/thumbnail/woezel_pip.jpg</str>
+      </arr>
+      <str name="title">Woezel en Pip</str>
+    </doc>
+  </result>
+  <lst name="highlighting">
+    <lst name="http://www.zappelin.nl/series/962-woezel-en-pip">
+      <arr name="title">
+        <str>&lt;em&gt;Woezel&lt;/em&gt; en Pip </str>
+      </arr>
+      <arr name="deeplink">
+        <str>s/962-&lt;em&gt;woezel&lt;/em&gt;-en-pip </str>
+      </arr>
+      <arr name="summary">
+        <str>&lt;p&gt;&lt;em&gt;Woezel&lt;/em&gt; en Pip zijn de nieuwsgierige hondjes die bedacht zijn door Guusje Nederhorst.&lt;/p&gt; </str>
+      </arr>
+    </lst>
+  </lst>
+</response>
