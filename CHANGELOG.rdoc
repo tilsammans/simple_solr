@@ -1,6 +1,7 @@
 == master
 
 - Only test on 1.9.2
+- Use fakeweb to mock the webserver response
 
 
 == 0.6.0 (Aug 18, 2011)
