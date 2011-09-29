@@ -24,6 +24,9 @@ describe SimpleSolr::Search do
       SimpleDocument.simple_search_docs('bonanza').length.should eq 1
     end
     
+    it "returns title" do
+      SimpleDocument.simple_search_docs('bonanza').first.at_css('str[name=title]').content.should eq "Woezel en Pip"
+    end
   end
 
 end

@@ -130,10 +130,25 @@ Use the +simple_search+ class method on your model:
 
   Document.simple_search 'apple'
   
-This will make a trip to Solr and return the results as a hash. That's right.
-The results are not correlated with your models. In fact, no processing is
-done at all. Simple, right? If you need to fetch model instances based on the
-results, that is up to you.
+This will make a trip to Solr and return the results as a Nokogiri XML
+Document. A slightly more convenient method to return only the matching
+documents is present as well:
+
+  Document.simple_search_docs 'apple'
+  
+gives you a Nodeset which you can query further. You will need either
+XPath or CSS selectors to drill down to the results you want. Given this
+individual +doc+ result:
+
+  <doc><str name="title">Woezel en Pip</str></doc>
+
+the contents of the title tag can be fetched like this:
+
+  results = Document.simple_search_docs 'apple'
+  results.first.at_css('str[name=title]').contents   # => Woezel en Pip
+
+
+=== Search parameters
 
 You can add parameters, for example if you want to limit results using +fq+:
 
@@ -143,7 +158,10 @@ See the Solr documentation[http://wiki.apache.org/solr/CommonQueryParameters] fo
 of common query parameters. Just remember that the +q+ parameter will be set already,
 although it can be overriden by the parameters you provide.
 
-The response from Solr will look something like this:
+
+=== Response example
+
+The raw response from Solr will look something like this:
 
   <?xml version="1.0" encoding="UTF-8"?>
   <response>
@@ -166,43 +184,8 @@ The response from Solr will look something like this:
     </lst>
   </response>
 
-This response will be translated into a hash by httparty. Take a look at your
-webserver config/response headers if that does not happen. The contents of the
-result has are somewhat confusing, as XML attributes are transformed into a
-method on the node's inner text.
+where every +doc+ is a matching document found in the index.
 
-The result above will be transformed into this:
-
-  response = {
-      "lst" = >[{
-          "int" = >["0", "3"],
-          "name" = >"responseHeader"
-      },
-      {
-          "lst" = >{
-              "name" = >"969"
-          },
-          "name" = >"highlighting"
-      }],
-      "result" = >{
-          "doc" = >{
-              "float" = >"13.722203",
-              "date" = >"2011-01-06T23:02:33Z",
-              "str" = >["969", "Widgets, Inc", "Golden Delicious", "Apples"]
-          },
-          "name" = >"response",
-          "numFound" = >"1",
-          "start" = >"0",
-          "maxScore" = >"13.722203"
-      }
-  }
-
-As you can see, result nodes that appear once are transformed into a hash
-directly, whereas result nodes that appear multiple times are placed in an
-array. But where are the XML attributes on the result strings? You can find
-them by calling .attributes on the strings:
-
-  response['result']['doc']['str'][1].attributes    # => {"name" => "publisher"}
 
 == Working in batches
 
@@ -218,7 +201,7 @@ Same for deleting documents:
     document.delete_from_solr
   end
 
-Just remember to not touch the +id+ field since you added the model, since
+Just remember to not change the +id+ field since you added the model, since
 this key is used to delete documents from Solr.
 
 
