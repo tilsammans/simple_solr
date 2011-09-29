@@ -1,8 +1,8 @@
-== master
+== 0.7.0 (Sep 29, 2011)
 
 - Only test on 1.9.2
 - Use fakeweb to mock the webserver response
-- Use Nokogiri to parse the response instead of relying to automatic hashing
+- Use Nokogiri to parse the response instead of relying on automatic hashing
 
 
 == 0.6.0 (Aug 18, 2011)
