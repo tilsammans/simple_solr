@@ -5,15 +5,16 @@ module SimpleSolr
     #
     #   Product.simple_search 'delicious', :fq => "category:fruit"
     #
-    # Returns a hash with the search results:
-    #
-    # {
-    #   "lst" => [{"int"=>["0", "18"], "name"=>"responseHeader"},{"name"=>"highlighting"}],
-    #   "result" => {"name"=>"response", "numFound"=>"0", "start"=>"0", "maxScore"=>"0.0"}
-    # }
+    # Returns a Nokogiri::XML::Document.
     def simple_search(query, params={})
       query = {:q => query}
-      get(SimpleSolr.configuration.uri + "/select", :query => query.merge(params)).parsed_response['response']
+      response = get(SimpleSolr.configuration.uri + "/select", :query => query.merge(params))
+      Nokogiri::XML(response.body)
+    end
+
+    # Returns all +doc+ elements, aka matching documents, from the search results in an array.
+    def simple_search_docs(query, params={})
+      simple_search(query, params).css('doc')
     end
   end
 end

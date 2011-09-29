@@ -1,4 +1,5 @@
 require 'active_record'
+require 'nokogiri'
 require 'httparty'
 require 'builder'
 
