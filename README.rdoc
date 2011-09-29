@@ -3,7 +3,7 @@ Extremely lightweight adapter between Rails and Solr.
 SimpleSolr uses the REST interface that Solr offers and makes a great number
 of assumptions. This has resulted in a very fast, very lightweight library
 almost anyone can use straight away. It does mean you will be working with
-query strings and hashes directly, instead of with Ruby objects.
+query strings and Nokogiri directly, instead of with Ruby objects.
 
 SimpleSolr is ideal when the Solr you use has been provided by a third party
 and is more or less running fine without you.
@@ -12,12 +12,11 @@ and is more or less running fine without you.
 === Design goals and benefits of SimpleSolr
 
 * only a few dozen lines of code
-* extremely simple DSL
-* only depends on httparty[https://github.com/jnunemaker/httparty]
+* extremely simple DSL, mimicing Sunspot
 * can handle all common use cases
 * has support for master/slave configurations
 * does not come with a bundled Solr
-* does not send a bunch of magic fields
+* does not use magic fields, you must specifiy everything yourself
 
 And my personal favorite:
 
